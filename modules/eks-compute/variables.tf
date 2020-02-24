@@ -110,3 +110,15 @@ variable "worker_sg_id" {
 }
 
 
+variable "source_sg_ids" {
+  description = "source security group ids"
+  # type        = "tuple"
+  default     = []
+}
+
+variable "source_sg_cidrs" {
+  description = "source cidrs"
+  # type        = "tuple"
+  default     = []
+}
+

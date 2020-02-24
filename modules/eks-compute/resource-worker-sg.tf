@@ -50,7 +50,29 @@ resource "aws_security_group_rule" "worker-ingress-sg" {
   type                     = "ingress"
 }
 
+resource "aws_security_group_rule" "sg_ids" {
+    count = length(var.source_sg_ids)
 
+    description              = "${var.source_sg_ids[count.index][0]}"
+    security_group_id        = "${aws_security_group.this.id}"
+    source_security_group_id = "${var.source_sg_ids[count.index][1]}"
+    from_port                = "${var.source_sg_ids[count.index][2]}"
+    to_port                  = "${var.source_sg_ids[count.index][3]}"
+    protocol                 = "${var.source_sg_ids[count.index][4]}"
+    type                     = "${var.source_sg_ids[count.index][5]}"
+}
+
+resource "aws_security_group_rule" "sg_cidrs" {
+    count = length(var.source_sg_cidrs)
+
+    description       = "${var.source_sg_cidrs[count.index][0]}"
+    security_group_id = "${aws_security_group.this.id}"
+    cidr_blocks       = "${var.source_sg_cidrs[count.index][1]}"
+    from_port         = "${var.source_sg_cidrs[count.index][2]}"
+    to_port           = "${var.source_sg_cidrs[count.index][3]}"
+    protocol          = "${var.source_sg_cidrs[count.index][4]}"
+    type              = "${var.source_sg_cidrs[count.index][5]}"
+}
 
 
 # resource "aws_security_group" "worker" {
