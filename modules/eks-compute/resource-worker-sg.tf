@@ -54,7 +54,7 @@ resource "aws_security_group_rule" "sg_ids" {
     count = length(var.source_sg_ids)
 
     description              = "${var.source_sg_ids[count.index][0]}"
-    security_group_id        = "${aws_security_group.this.id}"
+    security_group_id        = "${aws_security_group.worker.id}"
     source_security_group_id = "${var.source_sg_ids[count.index][1]}"
     from_port                = "${var.source_sg_ids[count.index][2]}"
     to_port                  = "${var.source_sg_ids[count.index][3]}"
@@ -66,7 +66,7 @@ resource "aws_security_group_rule" "sg_cidrs" {
     count = length(var.source_sg_cidrs)
 
     description       = "${var.source_sg_cidrs[count.index][0]}"
-    security_group_id = "${aws_security_group.this.id}"
+    security_group_id = "${aws_security_group.worker.id}"
     cidr_blocks       = "${var.source_sg_cidrs[count.index][1]}"
     from_port         = "${var.source_sg_cidrs[count.index][2]}"
     to_port           = "${var.source_sg_cidrs[count.index][3]}"
