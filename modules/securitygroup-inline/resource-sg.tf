@@ -42,3 +42,27 @@ resource "aws_security_group" "this" {
     }
 
 }
+
+resource "aws_security_group_rule" "sg_ids" {
+    count = length(var.source_sg_ids)
+
+    description              = "${var.source_sg_ids[count.index].desc}"
+    security_group_id        = "${aws_security_group.this.id}"
+    source_security_group_id = "${var.source_sg_ids[count.index].security_groups}"
+    from_port                = "${var.source_sg_ids[count.index].from}"
+    to_port                  = "${var.source_sg_ids[count.index].to}"
+    protocol                 = "${var.source_sg_ids[count.index].protocol}"
+    type                     = "${var.source_sg_ids[count.index].type}"
+}
+
+resource "aws_security_group_rule" "sg_cidrs" {
+    count = length(var.source_sg_cidrs)
+
+    description       = "${var.source_sg_cidrs[count.index].desc}"
+    security_group_id = "${aws_security_group.this.id}"
+    cidr_blocks       = "${var.source_sg_cidrs[count.index].cidrs}"
+    from_port         = "${var.source_sg_cidrs[count.index].from}"
+    to_port           = "${var.source_sg_cidrs[count.index].to}"
+    protocol          = "${var.source_sg_cidrs[count.index].protocol}"
+    type              = "${var.source_sg_cidrs[count.index].type}"
+}
